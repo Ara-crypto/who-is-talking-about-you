@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Webpage with Advanced Features</title>
+    <style>
+        /* CSS styles */
+
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Container Styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            font-size: 4rem;
+            position: relative;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-effect 0.3s infinite;
+        }
+
+        .glitch::after {
+            color: #f0f;
+            z-index: -2;
+            animation: glitch-effect 0.3s infinite reverse;
+        }
+
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Search Container */
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            width: 300px;
+        }
+
+        #search-button {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            background-color: #0f0;
+            color: #000;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #search-button:hover {
+            background-color: #0c0;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #0f0;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Search Results */
+        #search-results {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="glitch" data-text="Welcome!">Welcome!</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Type to search...">
+            <button id="search-button">Search</button>
+        </div>
+        <div id="loading-animation" class="loading"></div>
+        <div id="search-results"></div>
+    </div>
+    <script>
+        // JavaScript code
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            const searchInput = document.getElementById('search-input').value.trim();
+            const loadingAnimation = document.getElementById('loading-animation');
+            const searchResults = document.getElementById('search-results');
+
+            if (searchInput === '') {
+                alert('Please enter a search term.');
+                return;
+            }
+
+            // Show loading animation
+            loadingAnimation.style.display = 'block';
+            searchResults.innerHTML = '';
+
+            // Simulate a search operation
+            setTimeout(() => {
+                loadingAnimation.style.display = 'none';
+                searchResults.innerHTML = `<p>Results for "${searchInput}":</p><ul><li>Result 1</li><li>Result 2</li><li>Result 3</li></ul>`;
+            }, 2000);
+        });
+    </script>
+</body>
+  </html>
