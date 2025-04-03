@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker News Portal</title>
+    <style>
+        /* Importing a hacker-themed font */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        /* Basic reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0f0f0f;
+            color: #00ff00;
+            overflow: hidden;
+        }
+
+        /* Background image */
+        body {
+            background: url('https://cdn.pixabay.com/photo/2018/03/01/14/57/hacker-3193138_960_720.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Overlay to darken background for better readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* RSS feed container */
+        #rss-feed {
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+        }
+
+        /* RSS feed items */
+        .rss-item {
+            margin-bottom: 15px;
+        }
+
+        .rss-item a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+
+        .rss-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            #rss-feed {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="glitch">Hacker News Portal</h1>
+        <p>Stay updated with the latest in cybersecurity and hacking news.</p>
+        <div id="rss-feed">
+            <!-- RSS feed items will be injected here -->
+        </div>
+    </div>
+
+    <!-- Background music -->
+    <audio id="background-music" autoplay loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-creepy.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Fetch and display RSS feed
+        async function fetchRSSFeed() {
+            const rssUrl = 'https://rss.app/feeds/9XJ7m7fJ0fZk8XzP.xml'; // Example RSS feed URL
+            const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
+
+            try {
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(data.contents, 'application/xml');
+                const items = xml.querySelectorAll('item');
+                let html = '';
+
+                items.forEach(el => {
+                    const title = el.querySelector('title').textContent;
+                    const link = el.querySelector('link').textContent;
+                    const description = el.querySelector('description').textContent;
+                    html += `
+                        <div class="rss-item">
+                            <a href="${link}" target="_blank">${title}</a>
+                            <p>${description}</p>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('rss-feed').innerHTML = html;
+            } catch (error) {
+                console.error('Error fetching RSS feed:', error);
+                document.getElementById('rss-feed').innerHTML = '<p>Failed to load news feed.</p>';
+            }
+        }
+
+        fetchRSSFeed();
+
+        // Play background music
+        const audio = document.getElementById('background-music');
+        audio.volume = 0.5; // Set volume to 50%
+        audio.play().catch(error => {
+            console.log('Playback prevented:', error);
+        });
+    </script>
+</body>
+</html>
