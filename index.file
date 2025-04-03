@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG_0001 Clone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #video-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 640px;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 360px;
+        }
+        #next-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #444;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+        }
+        #next-button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>IMG_0001 Clone</h1>
+    <div id="video-container">
+        <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button id="next-button">Next Video</button>
+
+    <script>
+        // Array of YouTube video IDs matching the "IMG_XXXX" pattern
+        const videoIds = [
+            'dQw4w9WgXcQ', // Example video ID
+            '3JZ_D3ELwOQ',
+            '2Vv-BfVoq4g'
+            // Add more video IDs as needed
+        ];
+
+        // Function to load a random video
+        function loadRandomVideo() {
+            const randomIndex = Math.floor(Math.random() * videoIds.length);
+            const videoId = videoIds[randomIndex];
+            const videoFrame = document.getElementById('video-frame');
+            videoFrame.src = `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        // Event listener for the "Next Video" button
+        document.getElementById('next-button').addEventListener('click', loadRandomVideo);
+
+        // Load the first random video on page load
+        window.onload = loadRandomVideo;
+    </script>
+</body>
+</html>
